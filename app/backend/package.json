@@ -9,7 +9,8 @@
   "author": "Claudinei Nunes Vieira",
   "license": "MIT License",
   "dependencies": {
-    "express": "^4.18.1"
+    "express": "^4.18.1",
+    "mongoose": "^6.4.2"
   },
   "devDependencies": {
     "ts-node": "^10.8.2",

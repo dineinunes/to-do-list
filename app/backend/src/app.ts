@@ -1,6 +1,7 @@
 import express from 'express';
 import MongoConnection from './models/mongo.connection';
 import 'dotenv/config';
+import routes from './routes';
 
 export default class App {
   private app: express.Express;
@@ -24,8 +25,8 @@ export default class App {
   }
 
   private routes() {
-    this.app.use('/task');
-    this.app.use('/user');
+    this.app.use('/task', routes.task);
+    this.app.use('/user', routes.user);
   }
 
   public start(port: string = '3001') {

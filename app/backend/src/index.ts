@@ -1,4 +1,4 @@
 import App from './app';
 import 'dotenv/config';
 
-new App().start(process.env.PORT!);
+new App().start(process.env.PORT);

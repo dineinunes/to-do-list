@@ -12,6 +12,7 @@ export default class App {
     this.config();
     this.connection();
     this.database = MongoConnection;
+    this.routes();
   }
 
   private config(): void {
@@ -20,6 +21,11 @@ export default class App {
 
   private connection(): void {
     this.database.connect(process.env.MONGO_URI);
+  }
+
+  private routes() {
+    this.app.use('/task');
+    this.app.use('/user');
   }
 
   public start(port: string = '3001') {

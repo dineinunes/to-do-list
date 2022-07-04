@@ -1,11 +1,46 @@
-import { model, Model } from 'mongoose';
+import {
+  isValidObjectId, model, Model, UpdateQuery,
+} from 'mongoose';
 import ITask from './interfaces/task.interface';
 import taskSchema from './schemas/task.schema';
 
 export default class TaskModel {
-  private taskMongooseModel: Model<ITask>;
+  private database: Model<ITask>;
 
   constructor() {
-    this.taskMongooseModel = model<ITask>('tasks', taskSchema);
+    this.database = model<ITask>('tasks', taskSchema);
+  }
+
+  public async createTask(data: ITask): Promise<ITask> {
+    const newTask = await this.database.create(data);
+    return newTask;
+  }
+
+  public async getAllTasks(username: string): Promise<ITask | ITask[] | null> {
+    const allTasks = await this.database.find({ username });
+    return allTasks;
+  }
+
+  public async updateTask(id: string, data: UpdateQuery<ITask>): Promise<ITask | null> {
+    if (!isValidObjectId(id)) return null;
+    const updatedTask = await this.database
+      .findOneAndUpdate({ _id: id }, data, { returnOriginal: false });
+    return updatedTask;
+  }
+
+  public async updateStatus(id: string, status: UpdateQuery<ITask>): Promise<ITask | null> {
+    if (!isValidObjectId(id)) return null;
+    const updatedTask = await this.database
+      .findOneAndUpdate({ _id: id }, { status }, { returnOriginal: false });
+    return updatedTask;
+  }
+
+  public async deleteTask(id: string): Promise<void> {
+    if (!isValidObjectId(id)) return;
+    await this.database.deleteOne({ _id: id });
+  }
+
+  public async deleteAllTasks(username: string): Promise<void> {
+    await this.database.deleteOne({ username });
   }
 }

@@ -5,11 +5,11 @@ const task = Router();
 
 const controller = new TaskController();
 
-task.post('/', controller.deleteAllTasks); // delete all tasks
-task.get('/', controller.getAllTasks); // get all tasks
-task.post('/', controller.createTask); // create new task
-task.put('/:id', controller.updateTask); // update general informations of a task
-task.delete('/:id', controller.deleteTask); // delete a task
-task.put('/:id/:status', controller.updateStatus); // update status of a task
+task.delete('/:user', controller.deleteAllTasks); // delete all tasks
+task.get('/:user', controller.getAllTasks); // get all tasks
+task.post('/:user', controller.createTask); // create new task
+task.put('/:user/:id', controller.updateTask); // update general informations of a task
+task.delete('/:user/:id', controller.deleteTask); // delete a task
+task.put('/:user/:id/:status', controller.updateStatus); // update status of a task
 
 export default task;

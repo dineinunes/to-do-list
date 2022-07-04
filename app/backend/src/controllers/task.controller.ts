@@ -12,8 +12,9 @@ export default class TaskController {
   Promise<Response | void> => {
     try {
       const data = req.body;
-      const code = await this.service.createTask(data);
-      return res.status(code);
+      const { user } = req.params;
+      const [code, result] = await this.service.createTask(user, data);
+      return res.status(code).json(result);
     } catch (error) {
       return next(error);
     }
@@ -23,8 +24,8 @@ export default class TaskController {
   Promise<Response | void> => {
     try {
       const { user } = req.params;
-      const code = await this.service.getAllTasks(user);
-      return res.status(code);
+      const [code, result] = await this.service.getAllTasks(user);
+      return res.status(code).json(result);
     } catch (error) {
       return next(error);
     }
@@ -35,8 +36,8 @@ export default class TaskController {
     try {
       const data = req.body;
       const { id } = req.params;
-      const code = await this.service.updateTask(id, data);
-      return res.status(code);
+      const [code, result] = await this.service.updateTask(id, data);
+      return res.status(code).json(result);
     } catch (error) {
       return next(error);
     }
@@ -47,8 +48,8 @@ export default class TaskController {
     try {
       const status = req.body;
       const { id } = req.params;
-      const code = await this.service.updateStatus(id, status);
-      return res.status(code);
+      const [code, result] = await this.service.updateStatus(id, status);
+      return res.status(code).json(result);
     } catch (error) {
       return next(error);
     }
@@ -58,8 +59,8 @@ export default class TaskController {
   Promise<Response | void> => {
     try {
       const { id } = req.params;
-      const code = await this.service.deleteTask(id);
-      return res.status(code);
+      const [code] = await this.service.deleteTask(id);
+      return res.status(code).end();
     } catch (error) {
       return next(error);
     }
@@ -69,8 +70,8 @@ export default class TaskController {
   Promise<Response | void> => {
     try {
       const { user } = req.params;
-      const code = await this.service.deleteAllTasks(user);
-      return res.status(code);
+      const [code] = await this.service.deleteAllTasks(user);
+      return res.status(code).end();
     } catch (error) {
       return next(error);
     }

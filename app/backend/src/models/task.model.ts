@@ -11,8 +11,9 @@ export default class TaskModel {
     this.database = model<ITask>('tasks', taskSchema);
   }
 
-  public async createTask(data: ITask): Promise<ITask> {
-    const newTask = await this.database.create(data);
+  public async createTask(user: string, data: ITask): Promise<ITask> {
+    const { description, status } = data;
+    const newTask = await this.database.create({ user, description, status });
     return newTask;
   }
 

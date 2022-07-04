@@ -12,8 +12,8 @@ export default class UserController {
   Promise<Response | void> => {
     try {
       const data = req.body;
-      const code = await this.service.createUser(data);
-      return res.status(code);
+      const [code, message] = await this.service.createUser(data);
+      return res.status(code).json(message);
     } catch (error) {
       return next(error);
     }
@@ -22,9 +22,10 @@ export default class UserController {
   public deleteUser = async (req: Request, res: Response, next: NextFunction):
   Promise<Response | void> => {
     try {
+      const { authorization } = req.headers;
       const { user } = req.params;
-      const code = await this.service.deleteUser(user);
-      return res.status(code);
+      const [code, message] = await this.service.deleteUser(user, authorization);
+      return res.status(code).json(message);
     } catch (error) {
       return next(error);
     }
@@ -34,9 +35,10 @@ export default class UserController {
   Promise<Response | void> => {
     try {
       const data = req.body;
+      const { authorization } = req.headers;
       const { user } = req.params;
-      const code = await this.service.updateUser(user, data);
-      return res.status(code);
+      const [code, message] = await this.service.updateUser(user, data, authorization);
+      return res.status(code).json(message);
     } catch (error) {
       return next(error);
     }
@@ -46,8 +48,8 @@ export default class UserController {
   Promise<Response | void> => {
     try {
       const data = req.body;
-      const code = await this.service.userLogin(data);
-      return res.status(code);
+      const [code, result] = await this.service.userLogin(data);
+      return res.status(code).json(result);
     } catch (error) {
       return next(error);
     }

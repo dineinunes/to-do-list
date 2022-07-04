@@ -3,19 +3,21 @@ import { JwtPayload } from 'jsonwebtoken';
 import 'dotenv/config';
 
 export default class JwtUtil {
+  private helper: typeof jwt;
+
   private secret: string;
 
   constructor() {
+    this.helper = jwt;
     this.secret = process.env.JWT_SECRET
-    || 'aRMVFmipbNvKvpWu9Ex6YrbPsJ4qAEvHyQx7cIQtCS3nqW2hh1AEb4gdR2pNTJj';
+    || '3trxFjZpELIV2wsAerRHp5eD0sPboZwnGEOJ0B0kHlNim8g79S0Z1uCmECxC5P7';
   }
 
   public generateToken = async (user: string):
-  Promise<string> => jwt.sign(
-    user,
-    this.secret,
-    { algorithm: 'HS256' },
-  );
+  Promise<string> => {
+    const token = this.helper.sign(user, this.secret, { algorithm: 'HS256' });
+    return token;
+  };
 
   public validateToken = async (token: string | undefined):
   Promise<string | JwtPayload | number> => {

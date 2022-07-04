@@ -1,18 +1,25 @@
 import Bcrypt from 'bcryptjs';
+import 'dotenv/config';
 
 export default class BcryptUtil {
-  private SALT = 1;
+  private helper: typeof Bcrypt;
+
+  private secret: string;
+
+  constructor() {
+    this.helper = Bcrypt;
+    this.secret = process.env.SALT || '1';
+  }
 
   public createHash = (password: string):
-  string => Bcrypt.hashSync(
-    password,
-    this.SALT,
-  );
+  string => {
+    const hash = this.helper.hashSync(password, this.secret);
+    return hash;
+  };
 
-  // eslint-disable-next-line class-methods-use-this
   public validateHash = (password: string, hash: string):
-  boolean => Bcrypt.compareSync(
-    password,
-    hash,
-  );
+  boolean => {
+    const isHashValid = this.helper.compareSync(password, hash);
+    return isHashValid;
+  };
 }

@@ -11,7 +11,7 @@ export default class UserModel {
     this.database = model<IUser>('users', userSchema);
   }
 
-  public async createUser(data: IUser): Promise<IUser> {
+  public async insertUser(data: IUser): Promise<IUser> {
     const newUser = await this.database.create(data);
     return newUser;
   }

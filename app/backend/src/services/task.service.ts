@@ -28,7 +28,7 @@ export default class TaskService {
     return [StatusCodes.OK, updatedTask];
   };
 
-  public updateStatus = async (id: string, status: UpdateQuery<ITask>):
+  public updateStatus = async (id: string, status: string):
   Promise<[StatusCodes, ITask | null]> => {
     const updatedTask = await this.model.updateStatus(id, status);
     return [StatusCodes.OK, updatedTask];
@@ -42,7 +42,7 @@ export default class TaskService {
 
   public deleteAllTasks = async (user: string):
   Promise<[StatusCodes]> => {
-    await this.model.deleteTask(user);
+    await this.model.deleteAllTasks(user);
     return [StatusCodes.NO_CONTENT];
   };
 }

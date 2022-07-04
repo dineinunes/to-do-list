@@ -32,11 +32,16 @@ export default class TaskModel {
     return updatedTask;
   };
 
-  public updateStatus = async (id: string, status: UpdateQuery<ITask>):
+  public updateStatus = async (id: string, status: string):
   Promise<ITask | null> => {
     if (!isValidObjectId(id)) return null;
+    enum ProjectStates {
+      'Pending',
+      'In Development',
+      'Done',
+    }
     const updatedTask = await this.database
-      .findOneAndUpdate({ _id: id }, { status }, { returnOriginal: false });
+      .findOneAndUpdate({ _id: id }, { status: ProjectStates[status] }, { returnOriginal: false });
     return updatedTask;
   };
 

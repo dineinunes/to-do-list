@@ -46,8 +46,7 @@ export default class TaskController {
   public updateStatus = async (req: Request, res: Response, next: NextFunction):
   Promise<Response | void> => {
     try {
-      const status = req.body;
-      const { id } = req.params;
+      const { id, status } = req.params;
       const [code, result] = await this.service.updateStatus(id, status);
       return res.status(code).json(result);
     } catch (error) {

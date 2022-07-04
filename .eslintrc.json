@@ -27,6 +27,8 @@
     "rules": {
         "import/extensions": "off",
         "semi": "off",
-        "@typescript-eslint/semi": ["error", "always"]
+        "@typescript-eslint/semi": ["error", "always"],
+        "no-shadow": "off",
+        "@typescript-eslint/no-shadow": ["error"]
     }
 }

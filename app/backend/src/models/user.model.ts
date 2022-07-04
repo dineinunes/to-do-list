@@ -1,11 +1,34 @@
-import { model, Model } from 'mongoose';
+import {
+  isValidObjectId, model, Model, UpdateQuery,
+} from 'mongoose';
 import IUser from './interfaces/user.interface';
 import userSchema from './schemas/user.schema';
 
 export default class UserModel {
-  private userMongooseModel: Model<IUser>;
+  private database: Model<IUser>;
 
   constructor() {
-    this.userMongooseModel = model<IUser>('users', userSchema);
+    this.database = model<IUser>('users', userSchema);
+  }
+
+  public async createUser(data: IUser): Promise<IUser> {
+    const newUser = await this.database.create(data);
+    return newUser;
+  }
+
+  public async deleteUser(username: string): Promise<void> {
+    await this.database.deleteOne({ username });
+  }
+
+  public async usernameMatch(username: string): Promise<IUser | null> {
+    const user = await this.database.findOne({ username });
+    return user;
+  }
+
+  public async updateUser(id: string, data: UpdateQuery<IUser>): Promise<IUser | null> {
+    if (!isValidObjectId(id)) return null;
+    const updatedUser = await this.database
+      .findOneAndUpdate({ _id: id }, data, { returnOriginal: false });
+    return updatedUser;
   }
 }

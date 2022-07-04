@@ -1,33 +1,50 @@
 import { UpdateQuery } from 'mongoose';
 import IUser from '../models/interfaces/user.interface';
 import UserModel from '../models/user.model';
+import BcryptUtil from '../utils/bcrypt.util';
 
 export default class UserService {
   private model: UserModel;
 
+  private util: BcryptUtil;
+
   constructor() {
     this.model = new UserModel();
+    this.util = new BcryptUtil();
   }
 
-  public async createUser(data: IUser): Promise<IUser | undefined> {
+  public async createUser(data: IUser):
+  Promise<number> {
     const isUsernameInUse = await this.model.usernameMatch(data.username);
     if (isUsernameInUse !== null) {
-      return undefined;
+      return 401;
     }
-    const newUser = await this.model.insertUser(data);
-    return newUser;
+    const hash = this.util.createHash(data.password);
+    await this.model.insertUser(data.username, hash);
+    return 201;
   }
 
-  public async deleteUser(username: string): Promise<void> {
+  public async deleteUser(username: string):
+  Promise<number> {
     await this.model.deleteUser(username);
+    return 204;
   }
 
-  public async updateUser(id: string, data: UpdateQuery<IUser>): Promise<IUser | null> {
-    const updatedUser = await this.model.updateUser(id, data);
-    return updatedUser;
+  public async updateUser(id: string, data: UpdateQuery<IUser>):
+  Promise<number> {
+    await this.model.updateUser(id, data);
+    return 200;
   }
 
-  public async userLogin(): Promise<void> {
-    throw new Error('Method not implemented');
+  public async userLogin(data: IUser):
+  Promise<number> {
+    const user = await this.model.usernameMatch(data.username);
+    if (user) {
+      const isPasswordValid: boolean = this.util.validateHash(data.password, user.password);
+      if (isPasswordValid) {
+        return 200;
+      }
+    }
+    return 401;
   }
 }

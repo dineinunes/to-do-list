@@ -1,6 +1,6 @@
 import Bcrypt from 'bcryptjs';
 
-export default class UBcrypt {
+export default class BcryptUtil {
   private SALT = 1;
 
   public createHash = (password: string):
@@ -9,7 +9,8 @@ export default class UBcrypt {
     this.SALT,
   );
 
-  static validateHash = (password: string, hash: string):
+  // eslint-disable-next-line class-methods-use-this
+  public validateHash = (password: string, hash: string):
   boolean => Bcrypt.compareSync(
     password,
     hash,

@@ -6,13 +6,13 @@ import routes from './routes';
 export default class App {
   private app: express.Express;
 
-  private database;
+  private host: string;
 
   constructor() {
     this.app = express();
     this.config();
     this.connection();
-    this.database = MongoConnection;
+    this.host = process.env.DB_HOST || 'localhost:27017';
     this.routes();
   }
 
@@ -20,8 +20,8 @@ export default class App {
     this.app.use(express.json());
   }
 
-  private connection(): void {
-    this.database.connect(process.env.MONGO_URI);
+  private async connection(): Promise<void> {
+    await MongoConnection.connect(`mongodb://${this.host}/to-do-list`);
   }
 
   private routes() {

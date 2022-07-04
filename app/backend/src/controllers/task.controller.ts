@@ -1,3 +1,4 @@
+import { Request, Response, NextFunction } from 'express';
 import TaskService from '../services/task.service';
 
 export default class TaskController {
@@ -6,4 +7,72 @@ export default class TaskController {
   constructor() {
     this.service = new TaskService();
   }
+
+  public createTask = async (req: Request, res: Response, next: NextFunction):
+  Promise<Response | void> => {
+    try {
+      const data = req.body;
+      const code = await this.service.createTask(data);
+      return res.status(code);
+    } catch (error) {
+      return next(error);
+    }
+  };
+
+  public getAllTasks = async (req: Request, res: Response, next: NextFunction):
+  Promise<Response | void> => {
+    try {
+      const { user } = req.params;
+      const code = await this.service.getAllTasks(user);
+      return res.status(code);
+    } catch (error) {
+      return next(error);
+    }
+  };
+
+  public updateTask = async (req: Request, res: Response, next: NextFunction):
+  Promise<Response | void> => {
+    try {
+      const data = req.body;
+      const { id } = req.params;
+      const code = await this.service.updateTask(id, data);
+      return res.status(code);
+    } catch (error) {
+      return next(error);
+    }
+  };
+
+  public updateStatus = async (req: Request, res: Response, next: NextFunction):
+  Promise<Response | void> => {
+    try {
+      const status = req.body;
+      const { id } = req.params;
+      const code = await this.service.updateStatus(id, status);
+      return res.status(code);
+    } catch (error) {
+      return next(error);
+    }
+  };
+
+  public deleteTask = async (req: Request, res: Response, next: NextFunction):
+  Promise<Response | void> => {
+    try {
+      const { id } = req.params;
+      const code = await this.service.deleteTask(id);
+      return res.status(code);
+    } catch (error) {
+      return next(error);
+    }
+  };
+
+  public deleteAllTasks = async (req: Request, res: Response, next: NextFunction):
+  Promise<Response | void> => {
+    try {
+      const { user } = req.params;
+      const code = await this.service.deleteAllTasks(user);
+      return res.status(code);
+    } catch (error) {
+      return next(error);
+    }
+  };
 }

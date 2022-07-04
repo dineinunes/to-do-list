@@ -16,8 +16,8 @@ export default class TaskModel {
     return newTask;
   }
 
-  public async getAllTasks(username: string): Promise<ITask | ITask[] | null> {
-    const allTasks = await this.database.find({ username });
+  public async getAllTasks(user: string): Promise<ITask | ITask[] | null> {
+    const allTasks = await this.database.find({ user });
     return allTasks;
   }
 
@@ -40,7 +40,7 @@ export default class TaskModel {
     await this.database.deleteOne({ _id: id });
   }
 
-  public async deleteAllTasks(username: string): Promise<void> {
-    await this.database.deleteOne({ username });
+  public async deleteAllTasks(user: string): Promise<void> {
+    await this.database.deleteMany({ user });
   }
 }

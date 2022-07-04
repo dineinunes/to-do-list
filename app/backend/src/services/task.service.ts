@@ -15,9 +15,9 @@ export default class TaskService {
     return 201;
   }
 
-  public async getAllTasks(username: string):
+  public async getAllTasks(user: string):
   Promise<number> {
-    await this.model.getAllTasks(username);
+    await this.model.getAllTasks(user);
     return 200;
   }
 
@@ -39,9 +39,9 @@ export default class TaskService {
     return 204;
   }
 
-  public async deleteAllTasks(username: string):
+  public async deleteAllTasks(user: string):
   Promise<number> {
-    await this.model.deleteTask(username);
+    await this.model.deleteTask(user);
     return 204;
   }
 }

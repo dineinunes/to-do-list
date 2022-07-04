@@ -26,7 +26,7 @@ export default class App {
 
   private routes() {
     this.app.use('/', routes.user);
-    this.app.use('/task', routes.task);
+    this.app.use('/:user', routes.task);
   }
 
   public start(port = '3001') {

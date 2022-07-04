@@ -5,17 +5,17 @@ import 'dotenv/config';
 export default class JwtUtil {
   private helper: typeof jwt;
 
-  private secret: string;
+  private JWT_SECRET: string;
 
   constructor() {
     this.helper = jwt;
-    this.secret = process.env.JWT_SECRET
+    this.JWT_SECRET = process.env.JWT_SECRET
     || '3trxFjZpELIV2wsAerRHp5eD0sPboZwnGEOJ0B0kHlNim8g79S0Z1uCmECxC5P7';
   }
 
   public generateToken = async (user: string):
   Promise<string> => {
-    const token = this.helper.sign(user, this.secret, { algorithm: 'HS256' });
+    const token = this.helper.sign(user, this.JWT_SECRET, { algorithm: 'HS256' });
     return token;
   };
 
@@ -25,7 +25,7 @@ export default class JwtUtil {
       try {
         const user = jwt.verify(
           token,
-          this.secret,
+          this.JWT_SECRET,
         );
         return user;
       } catch (error) {

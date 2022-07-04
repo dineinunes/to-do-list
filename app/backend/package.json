@@ -2,9 +2,9 @@
   "name": "to-do-list-backend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "start": "tsnd --transpile-only --respawn --ignore-watch node_modules src/index.ts"
+    "start": "tsnd --transpile-only --respawn --ignore-watch node_modules src/server.ts"
   },
   "author": "Claudinei Nunes Vieira",
   "license": "MIT License",

@@ -4,22 +4,20 @@ import 'dotenv/config';
 export default class BcryptUtil {
   private helper: typeof Bcrypt;
 
-  private secret: string;
-
   constructor() {
     this.helper = Bcrypt;
-    this.secret = process.env.SALT || '1';
   }
 
-  public createHash = (password: string):
-  string => {
-    const hash = this.helper.hashSync(password, this.secret);
+  public createHash(password: string):
+  string {
+    const SALT = 1;
+    const hash = this.helper.hashSync(password, SALT);
     return hash;
-  };
+  }
 
-  public validateHash = (password: string, hash: string):
-  boolean => {
+  public validateHash(password: string, hash: string):
+  boolean {
     const isHashValid = this.helper.compareSync(password, hash);
     return isHashValid;
-  };
+  }
 }

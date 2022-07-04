@@ -1,15 +1,11 @@
 version: '3.9'
 services:
   database:
-    image: mongo
+    image: mongo:4.4.6 
     container_name: database
     ports:
       - "27017:27017"
     restart: always
-    healthcheck:
-      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
-      timeout: 10s
-      retries: 5
   backend: 
     build: ./backend
     container_name: backend
@@ -19,16 +15,10 @@ services:
     environment:
       - DB_HOST=database
       - JWT_SECRET=aRMVFmipbNvKvpWu9Ex6YrbPsJ4qAEvHyQx7cIQtCS3nqW2hh1AEb4gdR2pNTJj
-      - MONGO_URI=mongodb://localhost:27017/to-do-list
-      - PORT=3001
-      - SALT=2
+      - SERVER_PORT=3001
     ports:
       - 3001:3001
     volumes:
       - ./:/usr/app
       - ./backend/:/usr/src/app
       - /usr/src/app/node_modules
-    healthcheck:
-      test: ["CMD", "lsof", "-t", "-i:3001"]
-      timeout: 10s
-      retries: 5

@@ -15,25 +15,25 @@ export default class App {
     this.routes();
   }
 
-  private config():
-  void {
+  private config = ():
+  void => {
     this.app.use(express.json());
-  }
+  };
 
-  private async connection():
-  Promise<void> {
+  private connection = async ():
+  Promise<void> => {
     await MongoConnection.connect(`mongodb://${this.DB_HOST}:/todolist`);
-  }
+  };
 
-  private routes():
-  void {
+  private routes = ():
+  void => {
     this.app.use('/task', routes.task);
     this.app.use('/user', routes.user);
-  }
+  };
 
-  public start(port: string | number):
-  void {
+  public start = (port: string | number):
+  void => {
     this.connection();
     this.app.listen(port, () => console.log(`Server is running at port ${port}`));
-  }
+  };
 }

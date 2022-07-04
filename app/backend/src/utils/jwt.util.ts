@@ -23,10 +23,7 @@ export default class JwtUtil {
   Promise<string | JwtPayload | number> => {
     if (token) {
       try {
-        const user = jwt.verify(
-          token,
-          this.JWT_SECRET,
-        );
+        const user = jwt.verify(token, this.JWT_SECRET);
         return user;
       } catch (error) {
         return 401;

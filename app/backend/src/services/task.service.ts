@@ -10,42 +10,39 @@ export default class TaskService {
     this.model = new TaskModel();
   }
 
-  public async createTask(user: string, data: ITask):
-  Promise<[StatusCodes, ITask]> {
-    console.log(data.description);
-    console.log(data.status);
+  public createTask = async (user: string, data: ITask):
+  Promise<[StatusCodes, ITask]> => {
     const newTask = await this.model.createTask(user, data);
-    console.log(newTask);
     return [StatusCodes.CREATED, newTask];
-  }
+  };
 
-  public async getAllTasks(user: string):
-  Promise<[StatusCodes, ITask | ITask[] | null]> {
+  public getAllTasks = async (user: string):
+  Promise<[StatusCodes, ITask | ITask[] | null]> => {
     const allTasks = await this.model.getAllTasks(user);
     return [StatusCodes.OK, allTasks];
-  }
+  };
 
-  public async updateTask(id: string, data: UpdateQuery<ITask>):
-  Promise<[StatusCodes, ITask | null]> {
+  public updateTask = async (id: string, data: UpdateQuery<ITask>):
+  Promise<[StatusCodes, ITask | null]> => {
     const updatedTask = await this.model.updateTask(id, data);
     return [StatusCodes.OK, updatedTask];
-  }
+  };
 
-  public async updateStatus(id: string, status: UpdateQuery<ITask>):
-  Promise<[StatusCodes, ITask | null]> {
+  public updateStatus = async (id: string, status: UpdateQuery<ITask>):
+  Promise<[StatusCodes, ITask | null]> => {
     const updatedTask = await this.model.updateStatus(id, status);
     return [StatusCodes.OK, updatedTask];
-  }
+  };
 
-  public async deleteTask(id: string):
-  Promise<[StatusCodes]> {
+  public deleteTask = async (id: string):
+  Promise<[StatusCodes]> => {
     await this.model.deleteTask(id);
     return [StatusCodes.NO_CONTENT];
-  }
+  };
 
-  public async deleteAllTasks(user: string):
-  Promise<[StatusCodes]> {
+  public deleteAllTasks = async (user: string):
+  Promise<[StatusCodes]> => {
     await this.model.deleteTask(user);
     return [StatusCodes.NO_CONTENT];
-  }
+  };
 }

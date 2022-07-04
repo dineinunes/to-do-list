@@ -11,37 +11,43 @@ export default class TaskModel {
     this.database = model<ITask>('tasks', taskSchema);
   }
 
-  public async createTask(user: string, data: ITask): Promise<ITask> {
+  public createTask = async (user: string, data: ITask):
+  Promise<ITask> => {
     const { description, status } = data;
     const newTask = await this.database.create({ user, description, status });
     return newTask;
-  }
+  };
 
-  public async getAllTasks(user: string): Promise<ITask | ITask[] | null> {
+  public getAllTasks = async (user: string):
+  Promise<ITask | ITask[] | null> => {
     const allTasks = await this.database.find({ user });
     return allTasks;
-  }
+  };
 
-  public async updateTask(id: string, data: UpdateQuery<ITask>): Promise<ITask | null> {
+  public updateTask = async (id: string, data: UpdateQuery<ITask>):
+  Promise<ITask | null> => {
     if (!isValidObjectId(id)) return null;
     const updatedTask = await this.database
       .findOneAndUpdate({ _id: id }, data, { returnOriginal: false });
     return updatedTask;
-  }
+  };
 
-  public async updateStatus(id: string, status: UpdateQuery<ITask>): Promise<ITask | null> {
+  public updateStatus = async (id: string, status: UpdateQuery<ITask>):
+  Promise<ITask | null> => {
     if (!isValidObjectId(id)) return null;
     const updatedTask = await this.database
       .findOneAndUpdate({ _id: id }, { status }, { returnOriginal: false });
     return updatedTask;
-  }
+  };
 
-  public async deleteTask(id: string): Promise<void> {
+  public deleteTask = async (id: string):
+  Promise<void> => {
     if (!isValidObjectId(id)) return;
     await this.database.deleteOne({ _id: id });
-  }
+  };
 
-  public async deleteAllTasks(user: string): Promise<void> {
+  public deleteAllTasks = async (user: string):
+  Promise<void> => {
     await this.database.deleteMany({ user });
-  }
+  };
 }

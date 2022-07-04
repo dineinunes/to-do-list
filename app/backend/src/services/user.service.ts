@@ -20,8 +20,8 @@ export default class UserService {
     this.util2 = new JwtUtil();
   }
 
-  public async createUser(data: IUser):
-  Promise<[StatusCodes, IMessage]> {
+  public createUser = async (data: IUser):
+  Promise<[StatusCodes, IMessage]> => {
     const user = await this.model.usernameMatch(data.username);
     if (user === null) {
       const hash = this.util.createHash(data.password);
@@ -29,10 +29,10 @@ export default class UserService {
       return [StatusCodes.CREATED, { message: 'User created' }];
     }
     return [StatusCodes.UNPROCESSABLE_ENTITY, { message: 'Username already in use' }];
-  }
+  };
 
-  public async deleteUser(username: string, authorization?: string):
-  Promise<[StatusCodes, IMessage]> {
+  public deleteUser = async (username: string, authorization?: string):
+  Promise<[StatusCodes, IMessage]> => {
     if (authorization) {
       const user = await this.util2.validateToken(authorization);
       if (user === username) {
@@ -41,10 +41,10 @@ export default class UserService {
       }
     }
     return [StatusCodes.UNAUTHORIZED, { message: 'Invalid token' }];
-  }
+  };
 
-  public async updateUser(username: string, data: UpdateQuery<IUser>, authorization?: string):
-  Promise<[StatusCodes, IMessage]> {
+  public updateUser = async (username: string, data: UpdateQuery<IUser>, authorization?: string):
+  Promise<[StatusCodes, IMessage]> => {
     if (authorization) {
       const user = await this.util2.validateToken(authorization);
       if (user === username) {
@@ -53,10 +53,10 @@ export default class UserService {
       }
     }
     return [StatusCodes.UNAUTHORIZED, { message: 'Invalid token' }];
-  }
+  };
 
-  public async userLogin(data: IUser):
-  Promise<[StatusCodes, IMessage | IToken]> {
+  public userLogin = async (data: IUser):
+  Promise<[StatusCodes, IMessage | IToken]> => {
     const user = await this.model.usernameMatch(data.username);
     if (user) {
       const isPasswordValid = this.util.validateHash(data.password, user.password);
@@ -67,5 +67,5 @@ export default class UserService {
       return [StatusCodes.UNAUTHORIZED, { message: 'Invalid password' }];
     }
     return [StatusCodes.UNAUTHORIZED, { message: 'User does not exist' }];
-  }
+  };
 }

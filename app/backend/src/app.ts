@@ -25,11 +25,11 @@ export default class App {
   }
 
   private routes() {
+    this.app.use('/', routes.user);
     this.app.use('/task', routes.task);
-    this.app.use('/user', routes.user);
   }
 
-  public start(port: string = '3001') {
+  public start(port = '3001') {
     this.app.listen(port, () => console.log(`Server is running at port ${port}`));
   }
 }

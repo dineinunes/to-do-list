@@ -30,9 +30,9 @@ export default class UserService {
     return 204;
   }
 
-  public async updateUser(id: string, data: UpdateQuery<IUser>):
+  public async updateUser(user: string, data: UpdateQuery<IUser>):
   Promise<number> {
-    await this.model.updateUser(id, data);
+    await this.model.updateUser(user, data);
     return 200;
   }
 

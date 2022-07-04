@@ -1,13 +1,15 @@
 import { Router } from 'express';
 import UserController from '../controllers/user.controller';
+import AuthMiddleware from '../middlewares/auth.middleware';
 
 const user = Router();
 
 const controller = new UserController();
+const middleware = new AuthMiddleware();
 
-user.post('/register', controller.createUser); // create new user
-user.post('/login', controller.userLogin); // log in an user
-user.put('/:user', controller.updateUser); // update informations of an user
-user.delete('/:user', controller.deleteUser); // delete an user
+user.post('/register', controller.createUser);
+user.post('/login', controller.userLogin);
+user.put('/:user', middleware.userAuthenticate, controller.updateUser);
+user.delete('/:user', middleware.userAuthenticate, controller.deleteUser);
 
 export default user;

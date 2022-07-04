@@ -31,28 +31,16 @@ export default class UserService {
     return [StatusCodes.UNPROCESSABLE_ENTITY, { message: 'Username already in use' }];
   };
 
-  public deleteUser = async (username: string, authorization?: string):
+  public deleteUser = async (username: string):
   Promise<[StatusCodes, IMessage]> => {
-    if (authorization) {
-      const user = await this.util2.validateToken(authorization);
-      if (user === username) {
-        await this.model.deleteUser(username);
-        return [StatusCodes.NO_CONTENT, { message: 'User deleted' }];
-      }
-    }
-    return [StatusCodes.UNAUTHORIZED, { message: 'Invalid token' }];
+    await this.model.deleteUser(username);
+    return [StatusCodes.NO_CONTENT, { message: 'User deleted' }];
   };
 
-  public updateUser = async (username: string, data: UpdateQuery<IUser>, authorization?: string):
+  public updateUser = async (username: string, data: UpdateQuery<IUser>):
   Promise<[StatusCodes, IMessage]> => {
-    if (authorization) {
-      const user = await this.util2.validateToken(authorization);
-      if (user === username) {
-        await this.model.updateUser(user, data);
-        return [StatusCodes.OK, { message: 'User informations updated' }];
-      }
-    }
-    return [StatusCodes.UNAUTHORIZED, { message: 'Invalid token' }];
+    await this.model.updateUser(username, data);
+    return [StatusCodes.OK, { message: 'User informations updated' }];
   };
 
   public userLogin = async (data: IUser):

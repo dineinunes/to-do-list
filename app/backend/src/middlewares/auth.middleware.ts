@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
+import { StatusCodes } from 'http-status-codes';
 import JwtUtil from '../utils/jwt.util';
 
 export default class AuthMiddleware {
@@ -8,18 +9,18 @@ export default class AuthMiddleware {
     this.util = new JwtUtil();
   }
 
-  public async userAuthenticate(req: Request, _res: Response, next: NextFunction):
-  Promise<void> {
+  public userAuthenticate = async (req: Request, res: Response, next: NextFunction):
+  Promise<Response | void> => {
     try {
       const { authorization } = req.headers;
       const { user } = req.params;
-      const username = await this.util.validateToken(authorization);
-      if (username === user) {
+      const [code, result] = await this.util.validateToken(authorization);
+      if (StatusCodes.CONTINUE && result === user) {
         return next();
       }
-      return next();
+      return res.status(code).json(result);
     } catch (error) {
       return next(error);
     }
-  }
+  };
 }
